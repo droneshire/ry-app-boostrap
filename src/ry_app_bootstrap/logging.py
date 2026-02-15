@@ -1,5 +1,6 @@
 import logging
 import typing as T
+from functools import partial
 
 from google.protobuf.timestamp_pb2 import Timestamp
 from ry_pg_utils.dynamic_table import DynamicTableDb
@@ -40,7 +41,7 @@ def setup_logging(
     log_message_cls: type[LogMessagePbProtocol],
     downsample_count: int = 1,
 ) -> None:
-    callback = lambda msg, db_name=None: logging_error_db_callback(msg, log_message_cls, db_name)
+    callback = partial(logging_error_db_callback, log_message_cls=log_message_cls)
     log.setup(
         log_dir,
         log_level,
